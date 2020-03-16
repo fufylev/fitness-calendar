@@ -13,9 +13,9 @@ import { AppLoading} from 'expo'
 class History extends Component {
     state = {
         ready: false,
-    }
+    };
     componentDidMount () {
-        const { dispatch } = this.props
+        const { dispatch } = this.props;
 
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
@@ -38,12 +38,15 @@ class History extends Component {
                     </Text>
                 </View>
                 : <TouchableOpacity
-                    onPress={() => console.log('Pressed!')}
+                    onPress={() => this.props.navigation.navigate(
+                        'EntryDetails',
+                        { entryId: key }
+                    )}
                 >
                     <MetricCard date={formattedDate} metrics={metrics} />
                 </TouchableOpacity>}
         </View>
-    )
+    );
     renderEmptyDate(formattedDate) {
         return (
             <View style={styles.item}>
@@ -55,8 +58,8 @@ class History extends Component {
         )
     }
     render() {
-        const { entries } = this.props
-        const { ready } = this.state
+        const { entries } = this.props;
+        const { ready } = this.state;
 
         if (ready === false) {
             return <AppLoading />
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20
     }
-})
+});
 
 
 function mapStateToProps (entries) {

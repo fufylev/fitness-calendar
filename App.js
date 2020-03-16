@@ -6,14 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Button } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 import IconWithBadge from "./components/IconWithBadge";
 import reducer from './reducers';
 import History from './components/History';
 import AddEntry from './components/AddEntry';
-import { purple, white } from './utils/colors'
+import EntryDetails from "./components/EntryDetails";
+import { purple, white } from './utils/colors';
+
 function HomeIconWithBadge(props) {
-    // You should pass down the badgeCount in some other ways like React Context API, Redux, MobX or event emitters.
     return <IconWithBadge {...props} badgeCount={0}/>;
 }
 
@@ -23,6 +24,7 @@ function HomeStackScreen() {
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen name="Home" component={History} options={stackOptions.home}/>
+            <HomeStack.Screen name="EntryDetails" component={EntryDetails}/>
         </HomeStack.Navigator>
     );
 }
@@ -74,8 +76,8 @@ export default function App() {
                                     <HomeIconWithBadge
                                         name={
                                             focused
-                                                ? 'bookmark'
-                                                : 'bookmark-o'
+                                                ? 'view-dashboard'
+                                                : 'view-dashboard-outline'
                                         }
                                         size={30}
                                         color={color}
