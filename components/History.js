@@ -1,25 +1,33 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { connect } from 'react-redux'
-import { receiveEntries, addEntry } from '../actions'
-import { timeToString, getDailyReminderValue } from '../utils/helpers'
+import { addEntry, receiveEntries } from '../actions'
+import { getDailyReminderValue, timeToString } from '../utils/helpers'
 import { fetchCalendarResults } from '../utils/api'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
 import { white } from '../utils/colors'
 import DateHeader from './DateHeader'
 import MetricCard from './MetricCard'
-import { AppLoading} from 'expo'
+import { AppLoading } from 'expo'
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function getDateFormatted(givenDate) {
+    const date = new Date(givenDate);
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+}
 
 class History extends Component {
     state = {
         ready: false,
     };
-    componentDidMount () {
-        const { dispatch } = this.props;
+
+    componentDidMount() {
+        const {dispatch} = this.props;
 
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
-            .then(({ entries }) => {
+            .then(({entries}) => {
                 if (!entries[timeToString()]) {
                     dispatch(addEntry({
                         [timeToString()]: getDailyReminderValue()
@@ -28,7 +36,8 @@ class History extends Component {
             })
             .then(() => this.setState(() => ({ready: true})))
     }
-    renderItem = ({ today, ...metrics }, formattedDate, key) => (
+
+    renderItem = ({today, ...metrics}, formattedDate, key) => (
         <View style={styles.item}>
             {today
                 ? <View>
@@ -39,14 +48,15 @@ class History extends Component {
                 </View>
                 : <TouchableOpacity
                     onPress={() => this.props.navigation.navigate(
-                        'EntryDetails',
-                        { entryId: key }
+                        'Entry Details',
+                        {entryId: key, name: getDateFormatted(key)}
                     )}
                 >
-                    <MetricCard date={formattedDate} metrics={metrics} />
+                    <MetricCard date={formattedDate} metrics={metrics}/>
                 </TouchableOpacity>}
         </View>
     );
+
     renderEmptyDate(formattedDate) {
         return (
             <View style={styles.item}>
@@ -57,12 +67,13 @@ class History extends Component {
             </View>
         )
     }
+
     render() {
-        const { entries } = this.props;
-        const { ready } = this.state;
+        const {entries} = this.props;
+        const {ready} = this.state;
 
         if (ready === false) {
-            return <AppLoading />
+            return <AppLoading/>
         }
 
         return (
@@ -100,7 +111,7 @@ const styles = StyleSheet.create({
 });
 
 
-function mapStateToProps (entries) {
+function mapStateToProps(entries) {
     return {
         entries
     }

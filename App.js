@@ -20,11 +20,15 @@ function HomeIconWithBadge(props) {
 
 const HomeStack = createStackNavigator();
 
-function HomeStackScreen() {
+function HomeStackScreen(props) {
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen name="Home" component={History} options={stackOptions.home}/>
-            <HomeStack.Screen name="EntryDetails" component={EntryDetails}/>
+            <HomeStack.Screen
+                name="Entry Details"
+                component={EntryDetails}
+                options={({ route }) => ({ title: route.params.name })}
+            />
         </HomeStack.Navigator>
     );
 }
@@ -61,6 +65,9 @@ const stackOptions = {
                 // color="#fff"
             />
         ),
+    },
+    details: {
+        headerTitle: 'Entry adsfd',
     }
 };
 
