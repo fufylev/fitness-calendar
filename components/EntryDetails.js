@@ -68,5 +68,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EntryDetail)
-
-//const entryId = props.route.params.entryId;
