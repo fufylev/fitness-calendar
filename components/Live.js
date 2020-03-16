@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { Foundation } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ const Live = () => {
     const [coords, setCoords] = useState(null);
     const [status, setStatus] = useState(null);
     const [direction, setDirection] = useState('');
+    const [bounceValue, setBounceValue] = useState(new Animated.Value(1));
 
     useEffect(() => {
         Permissions.getAsync(Permissions.LOCATION)
@@ -47,6 +48,13 @@ const Live = () => {
             },
             ({ coords }) => {
                 const newDirection = calculateDirection(coords.heading);
+
+                if (newDirection !== direction) {
+                    Animated.sequence([
+                        Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+                        Animated.spring(bounceValue, { toValue: 1, friction: 4 }),
+                    ]).start();
+                }
 
                 setCoords(coords);
                 setDirection(newDirection);
@@ -87,7 +95,9 @@ const Live = () => {
         <View style={styles.container}>
             <View style={styles.directionContainer}>
                 <Text style={styles.header}>You're heading</Text>
-                <Text style={styles.direction}>{direction}</Text>
+                <Animated.Text style={[styles.direction, { transform: [{ scale: bounceValue }] }]}>
+                    {direction}
+                </Animated.Text>
             </View>
             <View style={styles.metricContainer}>
                 <View style={styles.metric}>
