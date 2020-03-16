@@ -6,12 +6,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Button } from 'react-native';
-import { FontAwesome, Entypo } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import IconWithBadge from "./components/IconWithBadge";
 import reducer from './reducers';
 import History from './components/History';
 import AddEntry from './components/AddEntry';
 import EntryDetails from "./components/EntryDetails";
+import Live from "./components/Live";
 import { purple, white } from './utils/colors';
 
 function HomeIconWithBadge(props) {
@@ -43,6 +44,16 @@ function AddEntryStackScreen() {
     );
 }
 
+const LiveStack = createStackNavigator();
+
+function LiveStackScreen() {
+    return (
+        <LiveStack.Navigator>
+            <LiveStack.Screen name="Settings" component={Live} options={stackOptions.live}/>
+        </LiveStack.Navigator>
+    );
+}
+
 const Tab = createBottomTabNavigator();
 
 const stackOptions = {
@@ -66,8 +77,8 @@ const stackOptions = {
             />
         ),
     },
-    details: {
-        headerTitle: 'Entry adsfd',
+    live: {
+        headerTitle: 'Live',
     }
 };
 
@@ -98,6 +109,14 @@ export default function App() {
                                         color={color}
                                     />
                                 );
+                            } else if (route.name === 'Live') {
+                                return (
+                                    <Ionicons
+                                        name={focused ? 'ios-speedometer' : 'md-speedometer'}
+                                        size={30}
+                                        color={color}
+                                    />
+                                );
                             }
                         },
                     })}
@@ -119,6 +138,7 @@ export default function App() {
                 >
                     <Tab.Screen name="History" component={HomeStackScreen}/>
                     <Tab.Screen name="Add Entry" component={AddEntryStackScreen}/>
+                    <Tab.Screen name="Live" component={LiveStackScreen}/>
                 </Tab.Navigator>
             </NavigationContainer>
         </Provider>
