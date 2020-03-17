@@ -4,10 +4,10 @@
     "slug": "fitness-calendar",
     "privacy": "public",
     "sdkVersion": "36.0.0",
+    "description": "Mobile app where user can schedule, save and check all his/her activities in terms of heath & fitness: jogging, cycling, swimming, sleeping hrs, number of healthy drinks, etc.",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fufylevdev.fitness-calendar",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.fufylevdev.fitness_calendar",
+      "versionCode": 1,
+      "permissions": [
+        "NOTIFICATIONS"
+      ]
     }
   }
 }
