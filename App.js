@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import AddEntry from './components/AddEntry';
 import EntryDetails from './components/EntryDetails';
 import Live from './components/Live';
 import { purple, white } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
 
 function HomeIconWithBadge(props) {
     return <IconWithBadge {...props} badgeCount={0} />;
@@ -59,23 +60,9 @@ const Tab = createBottomTabNavigator();
 const stackOptions = {
     home: {
         headerTitle: 'History',
-        // headerRight: () => (
-        //     <Button
-        //         onPress={() => alert('This is a button!')}
-        //         title="Info"
-        //         // color="#fff"
-        //     />
-        // ),
     },
     setting: {
         headerTitle: 'Add Entry',
-        // headerRight: () => (
-        //     <Button
-        //         onPress={() => alert('This is a button!')}
-        //         title="Info"
-        //         // color="#fff"
-        //     />
-        // ),
     },
     live: {
         headerTitle: 'Live',
@@ -83,6 +70,10 @@ const stackOptions = {
 };
 
 export default function App() {
+    useEffect(() => {
+        setLocalNotification();
+    }, []);
+
     return (
         <Provider store={createStore(reducer)}>
             <NavigationContainer>

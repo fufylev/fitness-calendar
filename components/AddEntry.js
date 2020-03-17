@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
-
-import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers';
-
+import { Ionicons } from '@expo/vector-icons';
+import {
+    getMetricMetaInfo,
+    timeToString,
+    getDailyReminderValue,
+    clearLocalNotification,
+    setLocalNotification,
+} from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import DateHeader from './DateHeader';
-import { Ionicons } from '@expo/vector-icons';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
-import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { purple, white } from '../utils/colors';
 
@@ -82,7 +86,7 @@ class AddEntry extends Component {
 
         submitEntry({ key, entry });
 
-        // Clear local notification
+        clearLocalNotification().then(setLocalNotification)
     };
 
     reset = () => {
@@ -109,9 +113,11 @@ class AddEntry extends Component {
         if (this.props.alreadyLogged) {
             return (
                 <View style={styles.center}>
-                    <Ionicons name={Platform.OS === 'ios' ? 'ios-happy' : 'md-happy'} size={100} />
-                    <Text>You already logged your information for today.</Text>
-                    <TextButton style={{ padding: 10 }} onPress={this.reset}>
+                    <Ionicons name={Platform.OS === 'ios' ? 'ios-happy' : 'md-happy'} size={100} color="dimgrey" />
+                    <Text style={{ padding: 10, fontSize: 18, textAlign: 'center' }}>
+                        You already logged your information for today.
+                    </Text>
+                    <TextButton style={{ padding: 10, fontSize: 26 }} onPress={this.reset}>
                         Reset
                     </TextButton>
                 </View>
