@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { getDailyReminderValue, timeToString, white } from '../utils/helpers';
+import { white } from '../utils/colors';
+import { getDailyReminderValue, timeToString } from '../utils/helpers';
 import MetricCard from './MetricCard';
 import TextButton from './TextButton';
 import { addEntry } from '../actions';
