@@ -22,3 +22,5 @@ Alternatively, you may use either an iOS or an Android simulators if you have th
 Use iOS or Android app to directly view Expo projects on your phone\
 [iOS App](https://itunes.apple.com/app/apple-store/id982107779)\
 [Android App](https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www)
+
+Once it's done you can open the project directly in Expo Client by following this [link](https://expo.io/@fufylev/fitness-calendar) from your phone
